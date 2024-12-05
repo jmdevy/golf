@@ -3,6 +3,7 @@ package com.jmdevy.golf;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -26,7 +28,22 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
+
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+
+import com.jmdevy.golf.entities.GolfBallEntity;
+import com.jmdevy.golf.entities.GolfBallEntityRenderer;
+import com.jmdevy.golf.entities.GolfBallEntityModel;
+
+import com.jmdevy.golf.commands.SpawnGolfBallEntityCommand;
+
+
+
+
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Golf.MODID)
@@ -35,8 +52,15 @@ public class Golf
     // Define mod id in a common place for everything to reference
     public static final String MODID = "golf";
 
+
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
+    // public static final RegistryObject<EntityType<GolfBallEntity>> GOLF_BALL_ENTITY = ENTITY_TYPES.register("golf_ball_entity", () -> EntityType.Builder.of(GolfBallEntity::new, MobCategory.MISC) .sized(1.0F, 1.0F).build(new ResourceLocation(MODID, "golf_ball_entity").toString()));
+
+    public static final RegistryObject<EntityType<GolfBallEntity>> GOLF_BALL = ENTITY_TYPES.register("golf_ball", () -> EntityType.Builder.<GolfBallEntity>of(GolfBallEntity::new, MobCategory.MISC) .sized(1.0F, 1.0F).build(new ResourceLocation(MODID, "golf_ball").toString()) );
+
+
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
@@ -70,6 +94,8 @@ public class Golf
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+
+        ENTITY_TYPES.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
@@ -127,5 +153,21 @@ public class Golf
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
+
+        @SubscribeEvent
+        public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            LOGGER.info("REGISTERING RENDERERS");
+            event.registerEntityRenderer(GOLF_BALL.get(), GolfBallEntityRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            LOGGER.info("REGISTERING MODELS");
+            event.registerLayerDefinition(GolfBallEntityRenderer.MODEL_LAYER, GolfBallEntityModel::createBodyLayer);
+        }
+    }
+
+    @SubscribeEvent public void onRegisterCommands(RegisterCommandsEvent event) {
+        SpawnGolfBallEntityCommand.register(event.getDispatcher());
     }
 }
