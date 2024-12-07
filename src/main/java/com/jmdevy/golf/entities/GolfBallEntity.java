@@ -1,6 +1,7 @@
 package com.jmdevy.golf.entities;
 
 import com.jmdevy.golf.Golf;
+import com.jmdevy.golf.entities.GolfBallEntityModel;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.nbt.CompoundTag;
@@ -15,47 +16,60 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.EntityDimensions;
 
-
 public class GolfBallEntity extends Entity {
 
     public GolfBallEntity(EntityType<? extends GolfBallEntity> type, Level world) {
         super(type, world);
-        this.setBoundingBox(new AABB(this.position(), this.position().add(this.getDimensions(Pose.STANDING).width, this.getDimensions(Pose.STANDING).height, this.getDimensions(Pose.STANDING).width)));
-        this.refreshDimensions();
+        this.updateBoundingBox();
+    }
+
+    private void updateBoundingBox() {
+        double halfSize = GolfBallEntityModel.BALL_DIMENSIONS / 2.0 / 16.0;
+        this.setBoundingBox(new AABB(
+            this.getX() - halfSize,
+            this.getY() - halfSize,
+            this.getZ() - halfSize,
+            this.getX() + halfSize,
+            this.getY() + halfSize,
+            this.getZ() + halfSize
+        ));
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        this.updateBoundingBox(); // Ensure bounding box is set when entity is added to the world
     }
 
     @Override
     public void tick() {
         super.tick();
+        this.updateBoundingBox();
     }
-
 
     @Override
     public AABB getBoundingBoxForCulling() {
+        this.updateBoundingBox();
         return this.getBoundingBox();
     }
     
-    @Override
-    public EntityDimensions getDimensions(net.minecraft.world.entity.Pose pose) {
-        return EntityDimensions.scalable(1.0F/16.0F, 1.0F/16.0F);
+    @Override public EntityDimensions getDimensions(Pose pose) {
+        this.updateBoundingBox();
+        float size = GolfBallEntityModel.BALL_DIMENSIONS / 16.0F; 
+        return EntityDimensions.scalable(size, size);
     }
 
     @Override
-    protected void defineSynchedData() {
-
-    }
+    protected void defineSynchedData() {}
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compound) {
-        
-    }
+    protected void readAdditionalSaveData(CompoundTag compound) {}
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {
-        
-    }
+    protected void addAdditionalSaveData(CompoundTag compound) {}
 
-    @Override public boolean canBeCollidedWith() {
+    @Override
+    public boolean canBeCollidedWith() {
         return true;
     }
 
@@ -70,7 +84,8 @@ public class GolfBallEntity extends Entity {
         return InteractionResult.PASS;
     }
 
-    @Override public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
+    @Override
+    public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
         Golf.LOGGER.info("Right clicked entity golf ball! interact at");
         return InteractionResult.PASS;
     }
@@ -80,21 +95,4 @@ public class GolfBallEntity extends Entity {
         Golf.LOGGER.info("Left clicked golf ball! hurt");
         return false;
     }
-
-    // @Override
-    // public void push(Entity entity) {
-    //     super.push(entity);
-    //     Golf.LOGGER.info("Collision detected with golf ball: " + entity.getName().getString());
-    // }
-
-    // @Override
-    // public boolean canCollideWith(Entity entity) {
-    //     // You can add logic here to filter out which entities can collide
-    //     if (entity instanceof Player) {
-    //         Golf.LOGGER.info("Detected potential collision with player: " + entity.getName().getString());
-    //         return true;
-    //     }
-    //     return super.canCollideWith(entity);
-    // }
-
 }
