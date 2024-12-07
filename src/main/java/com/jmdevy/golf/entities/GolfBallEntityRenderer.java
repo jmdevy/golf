@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 
 
 public class GolfBallEntityRenderer extends EntityRenderer<GolfBallEntity> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Golf.MODID, "textures/entity/golf_ball.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Golf.MODID, "textures/golf_ball.png");
     public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(Golf.MODID, "golf_ball"), "main");
     private final GolfBallEntityModel model;
 
