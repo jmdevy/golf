@@ -4,6 +4,7 @@ import com.jmdevy.golf.Golf;
 import com.jmdevy.golf.entities.GolfBallEntityModel;
 
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,6 +17,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.EntityDimensions;
 
+
+// Note: there might be a bug where the hitbox is being rest by some
+//       some other MineCraft code. This causes a blinking/flickering.
+//       Might not be able to see it when close to the ball for some reason
+//       and causes the player to hit through the ball sometimes (FIX: TODO)
 public class GolfBallEntity extends Entity {
 
     public GolfBallEntity(EntityType<? extends GolfBallEntity> type, Level world) {
@@ -44,7 +50,6 @@ public class GolfBallEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        this.updateBoundingBox();
     }
 
     @Override
@@ -93,6 +98,33 @@ public class GolfBallEntity extends Entity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         Golf.LOGGER.info("Left clicked golf ball! hurt");
-        return false;
+
+        // Indicate that the entity was not removed if a
+        // non-player entity deals damage to the ball
+        if (!(source.getEntity() instanceof Player)) {
+            return false;
+        }
+
+        // Remove the entity as long as a player dealt the damage
+        this.remove(RemovalReason.KILLED);
+
+        // Now need to handle the item that will be given back
+        // Is player, get the player object
+        Player player = (Player)source.getEntity();
+
+        // Don't do anything with the potential item if in creative mode
+        if(player.isCreative()){
+            return true;    // Entity removed
+        }
+
+        // Give the item back to the player
+        ItemStack golfBallItemStack = new ItemStack(Golf.GOLF_BALL_ITEM.get());
+
+        if (!player.addItem(golfBallItemStack)) {
+            player.drop(golfBallItemStack, false);
+        }
+
+        return true; // Indicate that the entity was hurt and removed
     }
+
 }
