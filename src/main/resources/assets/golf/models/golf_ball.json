@@ -1,0 +1,10 @@
+{
+    "loader": "forge:obj",
+    "model": "golf:models/golf_ball.obj",
+    "flip_v": true,
+    "textures": {
+      "texture0": "golf:textures/golf_ball.png",
+      "particle": "minecraft:block/stone"
+    }
+  }
+  
