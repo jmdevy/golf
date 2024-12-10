@@ -5,7 +5,9 @@ import com.jmdevy.golf.entities.GolfBallEntityModel;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ChunkMap;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,6 +15,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.EntityDimensions;
@@ -86,12 +91,47 @@ public class GolfBallEntity extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         Golf.LOGGER.info("Right clicked golf ball! interact");
+
         return InteractionResult.PASS;
     }
 
     @Override
     public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
         Golf.LOGGER.info("Right clicked entity golf ball! interact at");
+
+        Vec3 hitStart = new Vec3(this.getX(), this.getY(), this.getZ());
+        Vec3 hitEnd = hitStart;
+
+        float hitAngleDeg = -60.0f;
+        float hitDirYaw = player.getYRot();
+        float hitVelocity = 100.0f;
+        float gravity = -9.81f;  // m/s
+
+        Vec3 hitDirection = Vec3.directionFromRotation(hitAngleDeg, hitDirYaw);
+        Vec3 ballVelocity = new Vec3(hitDirection.x()*hitVelocity, hitDirection.y()*hitVelocity, hitDirection.z()*hitVelocity);
+
+        // Now step simulate path
+        double timeStep = 0.01;
+
+        while(hitEnd.y() > -72.0){
+            ballVelocity = ballVelocity.add(0, gravity*timeStep, 0);
+            hitEnd = hitEnd.add(ballVelocity.x() * timeStep, ballVelocity.y() * timeStep, ballVelocity.z() * timeStep);
+
+            BlockPos blockPos = new BlockPos((int)hitEnd.x(), (int)hitEnd.y(), (int)hitEnd.z());
+
+            int chunkX = blockPos.getX() >> 4;
+            int chunkZ = blockPos.getZ() >> 4;
+
+            this.level().getChunk(chunkX, chunkZ, ChunkStatus.FULL, true);
+
+            this.level().setBlock(blockPos, Blocks.DIRT.defaultBlockState(), 3);
+
+            // if (!this.level().getBlockState(blockPos).isAir() && this.level().getBlockState(blockPos).getBlock() != Blocks.WATER){
+            //     break;
+            // }
+        }
+
+
         return InteractionResult.PASS;
     }
 
