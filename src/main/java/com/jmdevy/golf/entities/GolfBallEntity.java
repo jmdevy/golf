@@ -2,7 +2,6 @@ package com.jmdevy.golf.entities;
 
 import com.jmdevy.golf.Golf;
 import com.jmdevy.golf.entities.GolfBallEntityModel;
-// import com.jmdevy.golf.GolfChunkLoader;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

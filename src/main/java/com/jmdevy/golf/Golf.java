@@ -2,6 +2,7 @@ package com.jmdevy.golf;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientRegistryLayer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -38,6 +40,7 @@ import com.jmdevy.golf.items.GolfBallItem;
 import com.jmdevy.golf.entities.GolfBallEntity;
 import com.jmdevy.golf.entities.GolfBallEntityRenderer;
 import com.jmdevy.golf.entities.GolfBallEntityModel;
+import com.jmdevy.golf.keybindings.HitBallKeyBindings;
 
 import com.jmdevy.golf.commands.SpawnGolfBallEntityCommand;
 
@@ -158,6 +161,16 @@ public class Golf
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+            
+        }
+
+        @SubscribeEvent
+        public void registerBindings(RegisterKeyMappingsEvent event) {
+            event.register(HitBallKeyBindings.forwardKey);
+            event.register(HitBallKeyBindings.backKey);
+            event.register(HitBallKeyBindings.leftKey);
+            event.register(HitBallKeyBindings.rightKey);
         }
 
         @SubscribeEvent
