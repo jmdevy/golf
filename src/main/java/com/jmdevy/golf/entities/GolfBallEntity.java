@@ -2,25 +2,38 @@ package com.jmdevy.golf.entities;
 
 import com.jmdevy.golf.Golf;
 import com.jmdevy.golf.entities.GolfBallEntityModel;
+// import com.jmdevy.golf.GolfChunkLoader;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeConfig.Server;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraft.world.entity.EntityDimensions;
+
+
+
 
 
 // Note: there might be a bug where the hitbox is being rest by some
@@ -101,34 +114,36 @@ public class GolfBallEntity extends Entity {
 
         Vec3 hitStart = new Vec3(this.getX(), this.getY(), this.getZ());
         Vec3 hitEnd = hitStart;
+        Vec3 lastHitEnd = hitEnd;
 
         float hitAngleDeg = -60.0f;
         float hitDirYaw = player.getYRot();
-        float hitVelocity = 100.0f;
+        float hitVelocity = 15.0f;
         float gravity = -9.81f;  // m/s
 
         Vec3 hitDirection = Vec3.directionFromRotation(hitAngleDeg, hitDirYaw);
         Vec3 ballVelocity = new Vec3(hitDirection.x()*hitVelocity, hitDirection.y()*hitVelocity, hitDirection.z()*hitVelocity);
 
         // Now step simulate path
-        double timeStep = 0.01;
+        double timeStep = 0.005;
 
         while(hitEnd.y() > -72.0){
             ballVelocity = ballVelocity.add(0, gravity*timeStep, 0);
+
+            lastHitEnd = hitEnd;
             hitEnd = hitEnd.add(ballVelocity.x() * timeStep, ballVelocity.y() * timeStep, ballVelocity.z() * timeStep);
 
             BlockPos blockPos = new BlockPos((int)hitEnd.x(), (int)hitEnd.y(), (int)hitEnd.z());
 
-            int chunkX = blockPos.getX() >> 4;
-            int chunkZ = blockPos.getZ() >> 4;
+            ClipContext context = new ClipContext(lastHitEnd, hitEnd, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
+            BlockHitResult hit = player.level().clip(context);
 
-            this.level().getChunk(chunkX, chunkZ, ChunkStatus.FULL, true);
-
-            this.level().setBlock(blockPos, Blocks.DIRT.defaultBlockState(), 3);
-
-            // if (!this.level().getBlockState(blockPos).isAir() && this.level().getBlockState(blockPos).getBlock() != Blocks.WATER){
-            //     break;
-            // }
+            if(hit.getType() != HitResult.Type.MISS){
+                Golf.LOGGER.info(hit.getLocation().toString());
+                Golf.LOGGER.info(hit.getDirection().toString());
+                this.setPos(hit.getLocation());
+                break;
+            }
         }
 
 
