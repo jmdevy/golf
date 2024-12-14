@@ -44,5 +44,9 @@ public class HitBallKeyBindingsHandler {
             // player.setYRot(player.getYRot() - 0.01f);
             // player.setDeltaMovement(player.getDeltaMovement().add(0.05, 0, 0));
         }
+        if (HitBallKeyBindings.spaceKey.isDown()) {
+            Golf.LOGGER.info("space");
+            ClientStanceHandler.setBallFocus(false, null, null);
+        }
     }
 }

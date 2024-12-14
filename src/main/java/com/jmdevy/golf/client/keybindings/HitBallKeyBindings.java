@@ -16,24 +16,33 @@ import org.lwjgl.glfw.GLFW;
 @Mod.EventBusSubscriber(modid = Golf.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class HitBallKeyBindings {
     public static final KeyMapping forwardKey = new KeyMapping(
-            "key.yourmodid.forward",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_W),
-            "key.categories.movement");
+        "key.golf.forward",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_W),
+        "key.categories.movement");
+
     public static final KeyMapping backKey = new KeyMapping(
-            "key.yourmodid.back",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_S),
-            "key.categories.movement");
+        "key.golf.back",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_S),
+        "key.categories.movement");
+
     public static final KeyMapping leftKey = new KeyMapping(
-            "key.yourmodid.left",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_A),
-            "key.categories.movement");
+        "key.golf.left",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_A),
+        "key.categories.movement");
+
     public static final KeyMapping rightKey = new KeyMapping(
-            "key.yourmodid.right",
-            KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_D),
-            "key.categories.movement");
+        "key.golf.right",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_D),
+        "key.categories.movement");
+
+    public static final KeyMapping spaceKey = new KeyMapping(
+        "key.golf.space",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_SPACE),
+        "key.categories.movement");
 }
 

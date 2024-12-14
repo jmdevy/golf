@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.api.distmarker.Dist;
@@ -109,6 +110,18 @@ public class ClientStanceHandler {
     }
 
 
+    // Disable player being able to break blocks
+    @SubscribeEvent
+    public static void onPlayerInteract(PlayerInteractEvent.LeftClickBlock event) {
+        if (!isClientBallFocused) {
+            return; // Skip custom control logic if not focused on a ball
+        }
+
+        event.setCanceled(true);
+    }
+
+    
+    // Disable player cursor in center of screen
     @SubscribeEvent
     public static void onRenderLevelStage(RenderGuiOverlayEvent.Pre event) {
         if (!isClientBallFocused) {

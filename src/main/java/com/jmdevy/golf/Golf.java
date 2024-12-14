@@ -170,6 +170,7 @@ public class Golf
             event.register(HitBallKeyBindings.backKey);
             event.register(HitBallKeyBindings.leftKey);
             event.register(HitBallKeyBindings.rightKey);
+            event.register(HitBallKeyBindings.spaceKey);
         }
 
         @SubscribeEvent
