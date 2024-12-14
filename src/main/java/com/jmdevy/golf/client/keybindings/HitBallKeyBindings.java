@@ -1,4 +1,4 @@
-package com.jmdevy.golf.keybindings;
+package com.jmdevy.golf.client.keybindings;
 
 import com.jmdevy.golf.Golf;
 import com.mojang.blaze3d.platform.InputConstants;

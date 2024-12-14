@@ -1,7 +1,7 @@
-package com.jmdevy.golf.commands;
+package com.jmdevy.golf.common.commands;
 
 import com.jmdevy.golf.Golf;
-import com.jmdevy.golf.entities.GolfBallEntity;
+import com.jmdevy.golf.common.entities.GolfBallEntity;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

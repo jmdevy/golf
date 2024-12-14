@@ -3,6 +3,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = mod_version
@@ -144,6 +145,19 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    // Apply Mixin AP
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+
+// Reference on how to make mixin work:
+//  https://github.com/CreativeMD/CMDCam/blob/1.20/build.gradle
+//  https://github.com/CreativeMD/CMDCam/blob/1.20/src/main/java/team/creative/cmdcam/client/mixin/CameraMixin.java
+//  https://github.com/henkelmax/camera-utils/blob/outdated/1.20/src/main/java/de/maxhenkel/camerautils/mixin/CameraMixin.java
+mixin {
+    add sourceSets.main, 'golf.mixin.refmap.json'
+    config 'golf.mixins.json'
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

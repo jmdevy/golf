@@ -1,7 +1,8 @@
-package com.jmdevy.golf.entities;
+package com.jmdevy.golf.common.entities;
 
 import com.jmdevy.golf.Golf;
-import com.jmdevy.golf.entities.GolfBallEntityModel;
+import com.jmdevy.golf.client.ClientStanceHandler;
+import com.jmdevy.golf.common.entities.GolfBallEntityModel;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -110,40 +111,41 @@ public class GolfBallEntity extends Entity {
     @Override
     public InteractionResult interactAt(Player player, Vec3 hitVec, InteractionHand hand) {
         Golf.LOGGER.info("Right clicked entity golf ball! interact at");
+        ClientStanceHandler.setBallFocus(true, this, player);
 
-        Vec3 hitStart = new Vec3(this.getX(), this.getY(), this.getZ());
-        Vec3 hitEnd = hitStart;
-        Vec3 lastHitEnd = hitEnd;
+        // Vec3 hitStart = new Vec3(this.getX(), this.getY(), this.getZ());
+        // Vec3 hitEnd = hitStart;
+        // Vec3 lastHitEnd = hitEnd;
 
-        float hitAngleDeg = -60.0f;
-        float hitDirYaw = player.getYRot();
-        float hitVelocity = 15.0f;
-        float gravity = -9.81f;  // m/s
+        // float hitAngleDeg = -60.0f;
+        // float hitDirYaw = player.getYRot();
+        // float hitVelocity = 15.0f;
+        // float gravity = -9.81f;  // m/s
 
-        Vec3 hitDirection = Vec3.directionFromRotation(hitAngleDeg, hitDirYaw);
-        Vec3 ballVelocity = new Vec3(hitDirection.x()*hitVelocity, hitDirection.y()*hitVelocity, hitDirection.z()*hitVelocity);
+        // Vec3 hitDirection = Vec3.directionFromRotation(hitAngleDeg, hitDirYaw);
+        // Vec3 ballVelocity = new Vec3(hitDirection.x()*hitVelocity, hitDirection.y()*hitVelocity, hitDirection.z()*hitVelocity);
 
-        // Now step simulate path
-        double timeStep = 0.005;
+        // // Now step simulate path
+        // double timeStep = 0.005;
 
-        while(hitEnd.y() > -72.0){
-            ballVelocity = ballVelocity.add(0, gravity*timeStep, 0);
+        // while(hitEnd.y() > -72.0){
+        //     ballVelocity = ballVelocity.add(0, gravity*timeStep, 0);
 
-            lastHitEnd = hitEnd;
-            hitEnd = hitEnd.add(ballVelocity.x() * timeStep, ballVelocity.y() * timeStep, ballVelocity.z() * timeStep);
+        //     lastHitEnd = hitEnd;
+        //     hitEnd = hitEnd.add(ballVelocity.x() * timeStep, ballVelocity.y() * timeStep, ballVelocity.z() * timeStep);
 
-            BlockPos blockPos = new BlockPos((int)hitEnd.x(), (int)hitEnd.y(), (int)hitEnd.z());
+        //     BlockPos blockPos = new BlockPos((int)hitEnd.x(), (int)hitEnd.y(), (int)hitEnd.z());
 
-            ClipContext context = new ClipContext(lastHitEnd, hitEnd, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
-            BlockHitResult hit = player.level().clip(context);
+        //     ClipContext context = new ClipContext(lastHitEnd, hitEnd, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
+        //     BlockHitResult hit = player.level().clip(context);
 
-            if(hit.getType() != HitResult.Type.MISS){
-                Golf.LOGGER.info(hit.getLocation().toString());
-                Golf.LOGGER.info(hit.getDirection().toString());
-                this.setPos(hit.getLocation());
-                break;
-            }
-        }
+        //     if(hit.getType() != HitResult.Type.MISS){
+        //         Golf.LOGGER.info(hit.getLocation().toString());
+        //         Golf.LOGGER.info(hit.getDirection().toString());
+        //         this.setPos(hit.getLocation());
+        //         break;
+        //     }
+        // }
 
 
         return InteractionResult.PASS;

@@ -1,8 +1,8 @@
-package com.jmdevy.golf.entities;
+package com.jmdevy.golf.common.entities;
 
-import com.jmdevy.golf.entities.GolfBallEntityModel;
 import com.jmdevy.golf.Golf;
-import com.jmdevy.golf.entities.GolfBallEntity;
+import com.jmdevy.golf.common.entities.GolfBallEntity;
+import com.jmdevy.golf.common.entities.GolfBallEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;

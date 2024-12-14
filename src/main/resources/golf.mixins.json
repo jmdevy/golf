@@ -1,0 +1,19 @@
+{
+    "required": true,
+    "package": "com.jmdevy.golf.common.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "refmap": "golf.common.mixin.refmap.json",
+    "server": [
+    ],
+    "mixins": [
+    ],
+    "client": [
+        "CameraMixin",
+        "GameRendererMixin",
+        "PlayerRendererMixin"
+    ],
+    "injectors": {
+      "defaultRequire": 1
+    },
+    "minVersion": "0.8"
+}

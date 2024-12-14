@@ -10,7 +10,7 @@ References:
 
 * Run `./gradlew` when files like `build.gradle` or `settings.gradle` are edited
 * Run Minecraft instance using commands `gradle run*` (e.g. `runClient`, `runServer`, `runData`, or `runGameTestServer`)
-* To build and run (most common operation): `./gradlew build ; ./gradlew runClient`
+* To build and run (most common operation): `./gradlew runClient`
 
 ## Important files
 * `golf\gradle.properties`

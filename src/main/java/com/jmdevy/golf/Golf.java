@@ -36,13 +36,12 @@ import org.slf4j.Logger;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
-import com.jmdevy.golf.items.GolfBallItem;
-import com.jmdevy.golf.entities.GolfBallEntity;
-import com.jmdevy.golf.entities.GolfBallEntityRenderer;
-import com.jmdevy.golf.entities.GolfBallEntityModel;
-import com.jmdevy.golf.keybindings.HitBallKeyBindings;
-
-import com.jmdevy.golf.commands.SpawnGolfBallEntityCommand;
+import com.jmdevy.golf.client.keybindings.HitBallKeyBindings;
+import com.jmdevy.golf.common.commands.SpawnGolfBallEntityCommand;
+import com.jmdevy.golf.common.entities.GolfBallEntity;
+import com.jmdevy.golf.common.entities.GolfBallEntityModel;
+import com.jmdevy.golf.common.entities.GolfBallEntityRenderer;
+import com.jmdevy.golf.common.items.GolfBallItem;
 
 
 
