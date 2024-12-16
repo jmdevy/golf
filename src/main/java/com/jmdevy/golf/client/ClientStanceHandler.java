@@ -11,9 +11,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 
 
 @Mod.EventBusSubscriber(modid = Golf.MODID, value = Dist.CLIENT)
@@ -22,7 +19,9 @@ public class ClientStanceHandler {
     private static GolfBallEntity focusedBall = null;   // No focused ball entity by default
     private static float aimYawDeg = 0.0f;              // The yaw at which the player is aiming, used for a lot of stuff
     private static double stanceBallDistance = 1.5;     // The distance the player model should be from the ball (TODO: should depend on club length)
-    private static double cameraBallDistance = 2.5; 
+    private static double cameraBallDistance = 2.5;
+
+
 
     
     // Call this to make the player focus a golf ball entity
@@ -34,7 +33,7 @@ public class ClientStanceHandler {
 
         // Track information at time of focus
         focusedBall = newFocusedBall;   // The new golf ball entity to focus
-        aimYawDeg = 0.0f;                  // The yaw to start aiming at (TODO: Figure out a way of auto aiming towards flag)
+        aimYawDeg = 0.0f;               // The yaw to start aiming at (TODO: Figure out a way of auto aiming towards flag)
 
         // Disable/enable rendering the player's hand 
         // or selection when the ball is focused
@@ -118,21 +117,6 @@ public class ClientStanceHandler {
         }
 
         event.setCanceled(true);
-    }
-
-    
-    // Disable player cursor in center of screen
-    @SubscribeEvent
-    public static void onRenderLevelStage(RenderGuiOverlayEvent.Pre event) {
-        if (!isClientBallFocused) {
-            return; // Skip custom control logic if not focused on a ball
-        }
-
-        // Check if it's the overlay rendering stage and if
-        // the overlay is the crosshair, disable the crosshair
-        if (event.getOverlay() != null && event.getOverlay().id().toString().equals("minecraft:crosshair")) {
-            event.setCanceled(true);
-        }
     }
 
 

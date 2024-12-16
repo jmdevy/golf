@@ -5,13 +5,9 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
 import org.lwjgl.glfw.GLFW;
+
 
 @Mod.EventBusSubscriber(modid = Golf.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class HitBallKeyBindings {
@@ -43,6 +39,18 @@ public class HitBallKeyBindings {
         "key.golf.space",
         KeyConflictContext.IN_GAME,
         InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_SPACE),
+        "key.categories.movement");
+    
+    public static final KeyMapping rightMouseKey = new KeyMapping(
+        "key.golf.rightMouse",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.MOUSE.getOrCreate(GLFW.GLFW_MOUSE_BUTTON_RIGHT),
+        "key.categories.movement");
+    
+    public static final KeyMapping leftMouseKey = new KeyMapping(
+        "key.golf.leftMouse",
+        KeyConflictContext.IN_GAME,
+        InputConstants.Type.MOUSE.getOrCreate(GLFW.GLFW_MOUSE_BUTTON_LEFT),
         "key.categories.movement");
 }
 
