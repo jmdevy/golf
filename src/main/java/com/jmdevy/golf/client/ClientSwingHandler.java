@@ -1,9 +1,7 @@
 package com.jmdevy.golf.client;
 
 import com.jmdevy.golf.Golf;
-import com.jmdevy.golf.client.hud.ClientGolfHUDHandler;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +31,16 @@ public class ClientSwingHandler {
         swingAccuracy = 0.0f;
         swingSpinType = SPIN_TYPE.NONE;
         swingCursorStep = 0.01f;
+    }
+
+
+    public static float getSwingCursor(){
+        return swingCursor;
+    }
+
+
+    public static float getSwingPower(){
+        return swingPower;
     }
 
 
@@ -70,12 +78,8 @@ public class ClientSwingHandler {
 
         // Stop and reset swing if reach the start again
         // and the power was still being defined
-        if(swingCursor >= 0.0 && swingState == SWING_STATE.DEFINING_POWER){
+        if(swingCursor < 0.0f){
             swingReset();
         }
-
-        // Show the swing cursor and power in the HUD (update)
-        ClientGolfHUDHandler.updateSwingCursor(swingCursor);
-        ClientGolfHUDHandler.updateSwingPower(swingPower);
     }
 }

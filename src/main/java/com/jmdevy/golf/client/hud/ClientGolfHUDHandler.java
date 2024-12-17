@@ -2,6 +2,7 @@ package com.jmdevy.golf.client.hud;
 
 import com.jmdevy.golf.Golf;
 import com.jmdevy.golf.client.ClientStanceHandler;
+import com.jmdevy.golf.client.ClientSwingHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,18 +44,8 @@ public class ClientGolfHUDHandler {
         bottomRightY -= 1;
         topLeftY += 1;
         topLeftX += 1;
-        topLeftX = bottomRightX - (int)((float)(bottomRightX - topLeftX) * 0.5f);
+        topLeftX = bottomRightX - (int)((float)(bottomRightX - topLeftX) * ClientSwingHandler.getSwingCursor());
         graphics.fill(topLeftX, topLeftY, bottomRightX, bottomRightY, 0xffff00ff);
-    }
-
-
-    public static void updateSwingCursor(float swingCursor){
-        Golf.LOGGER.info(Float.toString(swingCursor));
-    }
-
-
-    public static void updateSwingPower(float swingPower){
-
     }
 
 

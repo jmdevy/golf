@@ -16,36 +16,30 @@ import java.util.HashMap;
 @Mod.EventBusSubscriber(modid = Golf.MODID, value = Dist.CLIENT)
 public class HitBallKeyBindingsHandler {
 
-    private static HashMap<String, Long> keyDebounceMap = new HashMap<String, Long>();
-    private static long debounceKeyTimeMS = 200;
+    private static HashMap<String, Boolean> lastKeyStateMap = new HashMap<String, Boolean>();
 
 
-    private static boolean isKeyPressedDebounced(KeyMapping key){
+    private static boolean isJustPressed(KeyMapping key){
         String keyName = key.getName();
 
-        // If the key is not pressed, return false
-        if(!key.isDown()){
-            return false;
+        // Say that the last state was not pressed if not already in the map
+        if(!lastKeyStateMap.containsKey(keyName)){
+            lastKeyStateMap.put(keyName, Boolean.valueOf(false));
         }
 
-        // If the map doesn't contain the key, add it as zero
-        // so that when time difference is compared it is long
-        // enough the first time
-        if(!keyDebounceMap.containsKey(keyName)){
-            keyDebounceMap.put(keyName, Long.valueOf(0));
+        boolean lastKeyState = lastKeyStateMap.get(keyName).booleanValue();
+        boolean currKeyState = key.isDown();
+        boolean justPressed = false;    // Assume not just pressed
+
+        // Is the key just pressed?
+        if(lastKeyState == false && currKeyState == true){
+            justPressed = true;
         }
 
-        // Figure out how long it has been since the last time the key
-        // was pressed. Return true if it has been long enough
-        long keyLastPressedTimeMS = keyDebounceMap.get(keyName).longValue();
-        long currentTimeMS = System.currentTimeMillis();
+        // Track the state
+        lastKeyStateMap.put(keyName, currKeyState);
 
-        if(currentTimeMS - keyLastPressedTimeMS > debounceKeyTimeMS){
-            keyDebounceMap.put(keyName, Long.valueOf(currentTimeMS));
-            return true;
-        }else{
-            return false;
-        }
+        return justPressed;
     }
 
 
@@ -83,11 +77,11 @@ public class HitBallKeyBindingsHandler {
             Golf.LOGGER.info("space");
             ClientStanceHandler.setBallFocus(false, null, null);
         }
-        if (isKeyPressedDebounced(HitBallKeyBindings.rightMouseKey)) {
+        if (isJustPressed(HitBallKeyBindings.rightMouseKey)) {
             Golf.LOGGER.info("right mouse");
             ClientSwingHandler.swing(ClientSwingHandler.BUTTON_TYPE.SECONDARY);
         }
-        if (isKeyPressedDebounced(HitBallKeyBindings.leftMouseKey)) {
+        if (isJustPressed(HitBallKeyBindings.leftMouseKey)) {
             Golf.LOGGER.info("left mouse");
             ClientSwingHandler.swing(ClientSwingHandler.BUTTON_TYPE.MAIN);
         }
