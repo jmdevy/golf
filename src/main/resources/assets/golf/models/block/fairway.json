@@ -1,0 +1,28 @@
+
+{
+    "parent": "block/block",
+    "textures": {
+        "particle": "golf:block/fairway_top",
+        "bottom": "golf:block/fairway_top",
+        "top": "golf:block/fairway_top",
+        "north": "golf:block/fairway_top",
+        "south": "golf:block/fairway_top",
+        "west": "golf:block/fairway_top",
+        "east": "golf:block/fairway_top"
+    },
+    "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 15.5, 16],
+            "faces": {
+                "down": { "texture": "#bottom", "cullface": "down" },
+                "up": { "texture": "#top" },
+                "north": { "texture": "#north" },
+                "south": { "texture": "#south" },
+                "west": { "texture": "#west" },
+                "east": { "texture": "#east" }
+            }
+        }
+    ]
+}
+  

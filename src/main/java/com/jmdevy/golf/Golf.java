@@ -37,6 +37,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
 import com.jmdevy.golf.client.keybindings.HitBallKeyBindings;
+import com.jmdevy.golf.common.blocks.FairwayBlock;
 import com.jmdevy.golf.common.commands.SpawnGolfBallEntityCommand;
 import com.jmdevy.golf.common.entities.GolfBallEntity;
 import com.jmdevy.golf.common.entities.GolfBallEntityModel;
@@ -57,8 +58,6 @@ public class Golf
 
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
-    // public static final RegistryObject<EntityType<GolfBallEntity>> GOLF_BALL_ENTITY = ENTITY_TYPES.register("golf_ball_entity", () -> EntityType.Builder.of(GolfBallEntity::new, MobCategory.MISC) .sized(1.0F, 1.0F).build(new ResourceLocation(MODID, "golf_ball_entity").toString()));
-
     public static final RegistryObject<EntityType<GolfBallEntity>> GOLF_BALL = ENTITY_TYPES.register("golf_ball", () -> EntityType.Builder.<GolfBallEntity>of(GolfBallEntity::new, MobCategory.MISC) .sized(1.0F, 1.0F).build(new ResourceLocation(MODID, "golf_ball").toString()) );
 
 
@@ -76,9 +75,12 @@ public class Golf
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
+    public static final RegistryObject<Block> FAIRWAY_BLOCK = BLOCKS.register("fairway",       () -> new FairwayBlock(Block.Properties.copy(Blocks.DIRT_PATH).noOcclusion()));
+
 
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> FAIRWAY_BLOCK_ITEM = ITEMS.register("fairway",       () -> new BlockItem(FAIRWAY_BLOCK.get(), new Item.Properties()));
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     // public static final RegistryObject<Item> GOLF_BALL_ITEM = ITEMS.register("golf_ball", () -> new Item(new Item.Properties()));
@@ -138,8 +140,10 @@ public class Golf
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS){
             event.accept(EXAMPLE_BLOCK_ITEM);
+            event.accept(FAIRWAY_BLOCK_ITEM);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

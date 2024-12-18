@@ -21,8 +21,6 @@ public class ClientStanceHandler {
     private static double stanceBallDistance = 1.5;     // The distance the player model should be from the ball (TODO: should depend on club length)
     private static double cameraBallDistance = 2.5;
 
-
-
     
     // Call this to make the player focus a golf ball entity
     public static void setBallFocus(boolean focused, GolfBallEntity newFocusedBall, Player player){

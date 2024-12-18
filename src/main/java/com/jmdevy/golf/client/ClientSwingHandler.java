@@ -17,8 +17,6 @@ public class ClientSwingHandler {
     private static SWING_STATE swingState = SWING_STATE.NONE;
     private static float swingCursor = 0.0f;                    // The cursor that moves in a standard way that allows the player to define a swing
     private static float swingPower = 0.0f;                     // The power of the swing defined by player inputs and timing (0.0 to 1.0)
-    private static float swingAccuracy = 0.0f;                  // The accuracy of the swing defined by player inputs and timing (-1.0 to 1.0)
-    private static SPIN_TYPE swingSpinType = SPIN_TYPE.NONE;    // The type of spin defined by the order of the last button clicks
 
     private static float swingCursorStep = 0.01f;               // How much to move the swing cursor each tick
 
@@ -28,8 +26,6 @@ public class ClientSwingHandler {
         swingState = SWING_STATE.NONE;
         swingCursor = 0.0f;
         swingPower = 0.0f;
-        swingAccuracy = 0.0f;
-        swingSpinType = SPIN_TYPE.NONE;
         swingCursorStep = 0.01f;
     }
 

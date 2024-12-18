@@ -15,7 +15,7 @@ import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 @Mod.EventBusSubscriber(modid = Golf.MODID, value = Dist.CLIENT)
 public class ClientGolfHUDHandler {
 
-    private static int barWidthPx = 206;
+    private static int barWidthPx = 190;
     private static int barHeightPx = 8;
 
 
