@@ -1,0 +1,26 @@
+{
+  "parent": "block/block",
+  "textures": {
+      "particle": "golf:block/green_top",
+      "bottom": "golf:block/green_top",
+      "top": "golf:block/green_top",
+      "north": "golf:block/green_top",
+      "south": "golf:block/green_top",
+      "west": "golf:block/green_top",
+      "east": "golf:block/green_top"
+  },
+  "elements": [
+      {
+          "from": [0, 0, 0],
+          "to": [16, 15.75, 16],
+          "faces": {
+              "down": { "texture": "#bottom", "cullface": "down" },
+              "up": { "texture": "#top" },
+              "north": { "texture": "#north" },
+              "south": { "texture": "#south" },
+              "west": { "texture": "#west" },
+              "east": { "texture": "#east" }
+          }
+      }
+  ]
+}

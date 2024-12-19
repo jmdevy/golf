@@ -1,0 +1,13 @@
+{
+    "parent": "block/cube",
+    "textures": {
+      "particle": "golf:block/fringe_top",
+      "down": "golf:block/fringe_top",
+      "up": "golf:block/fringe_top",
+      "north": "golf:block/fringe_top",
+      "south": "golf:block/fringe_top",
+      "west": "golf:block/fringe_top",
+      "east": "golf:block/fringe_top"
+    }
+}
+  

@@ -37,7 +37,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
 import com.jmdevy.golf.client.keybindings.HitBallKeyBindings;
-import com.jmdevy.golf.common.blocks.FairwayBlock;
+import com.jmdevy.golf.common.blocks.Fairway;
+import com.jmdevy.golf.common.blocks.Fringe;
+import com.jmdevy.golf.common.blocks.Green;
 import com.jmdevy.golf.common.commands.SpawnGolfBallEntityCommand;
 import com.jmdevy.golf.common.entities.GolfBallEntity;
 import com.jmdevy.golf.common.entities.GolfBallEntityModel;
@@ -75,16 +77,16 @@ public class Golf
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
-    public static final RegistryObject<Block> FAIRWAY_BLOCK = BLOCKS.register("fairway",       () -> new FairwayBlock(Block.Properties.copy(Blocks.DIRT_PATH).noOcclusion()));
-
+    public static final RegistryObject<Block> FAIRWAY_BLOCK = BLOCKS.register("fairway",       () -> new Fairway(Block.Properties.copy(Blocks.DIRT_PATH).noOcclusion()));
+    public static final RegistryObject<Block> FRINGE_BLOCK  = BLOCKS.register("fringe",        () -> new Fringe(Block.Properties.copy(Blocks.DIRT)));
+    public static final RegistryObject<Block> GREEN_BLOCK   = BLOCKS.register("green",         () -> new Green(Block.Properties.copy(Blocks.DIRT)));
 
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> FAIRWAY_BLOCK_ITEM = ITEMS.register("fairway",       () -> new BlockItem(FAIRWAY_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> FRINGE_BLOCK_ITEM  = ITEMS.register("fringe",        () -> new BlockItem(FRINGE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> GREEN_BLOCK_ITEM   = ITEMS.register("green",         () -> new BlockItem(GREEN_BLOCK.get(), new Item.Properties()));
 
-    // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    // public static final RegistryObject<Item> GOLF_BALL_ITEM = ITEMS.register("golf_ball", () -> new Item(new Item.Properties()));
-    // Add this line to your DeferredRegister for items
 
     public static final RegistryObject<Item> GOLF_BALL_ITEM = ITEMS.register("golf_ball", 
     () -> new GolfBallItem(new Item.Properties()));
@@ -143,6 +145,8 @@ public class Golf
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS){
             event.accept(EXAMPLE_BLOCK_ITEM);
             event.accept(FAIRWAY_BLOCK_ITEM);
+            event.accept(FRINGE_BLOCK_ITEM);
+            event.accept(GREEN_BLOCK_ITEM);
         }
     }
 
